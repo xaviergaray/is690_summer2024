@@ -58,13 +58,12 @@ class UserService(DbService):
             new_user.role = UserRole.ADMIN if user_count == 0 else UserRole.ANONYMOUS            
             if new_user.role == UserRole.ADMIN:
                 new_user.email_verified = True
-            else:
-                new_user.verification_token = generate_verification_token()
-                
+
+            
+            new_user.verification_token = generate_verification_token()
             session.add(new_user)
             await session.commit()
-            if new_user.email_verified == False:
-                await email_service.send_verification_email(new_user)
+            await email_service.send_verification_email(new_user)
             return new_user
         except ValidationError as e:
             raise e
@@ -142,13 +141,16 @@ class UserService(DbService):
     @classmethod
     async def verify_email_with_token(cls, session: AsyncSession, user_id: UUID, token: str) -> None:
         user = await cls.get_by_id(session, user_id)
-        if not user.verification_token or user.verification_token != token:
-            raise InvalidVerificationTokenException("Invalid or expired verification token.")
-        user.email_verified = True
-        user.verification_token = None
-        user.role = UserRole.AUTHENTICATED
-        session.add(user)
-        await session.commit()
+        if user and user.verification_token == token:
+            user.email_verified = True
+            user.verification_token = None  # Clear the token once used
+            if user.role == UserRole.ANONYMOUS:
+                user.role = UserRole.AUTHENTICATED
+            session.add(user)
+            await session.commit()
+            return True
+        return False
+
 
     @classmethod
     async def count(cls, session: AsyncSession) -> int:
