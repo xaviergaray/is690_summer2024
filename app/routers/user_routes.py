@@ -176,10 +176,16 @@ async def register(
     try:
         user = await UserService.register_user(session, user_data.model_dump(), email_service)
         return UserResponse.model_construct(
-            id=user.id,
             nickname=user.nickname,
-            email=user.email,
+            first_name=user.first_name,
+            last_name=user.last_name,
+            bio=user.bio,
+            profile_picture_url=user.profile_picture_url,
+            github_profile_url=user.github_profile_url,
+            linkedin_profile_url=user.linkedin_profile_url,
             role=user.role,
+            email=user.email,
+            last_login_at=user.last_login_at,
             created_at=user.created_at,
             updated_at=user.updated_at,
         )

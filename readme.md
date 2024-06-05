@@ -4,6 +4,15 @@
 
 We will be using this repository throughout the semester.  Your job this week is to setup the continuous integration / continouous deployment (CI/CD) process between GitHub and DockerHub.  Your responsbility throughout the semester is to ensure that this deployment process is always working.  You may sometimes fail security scans and will need to fix the issues as needed. 
 
+Watch the lecture video:
+
+[New Lecture - IS690 Summer 2024](https://youtu.be/jEA8tPKle6k)
+
+Old Lectures that are good for review if you didn't have IS601 in the spring:
+
+1. [https://youtu.be/dgMCSND2FQw](Database Programming)
+2. [https://youtu.be/8_BsACPtKaA](Going over implementing a new feature / user login and my account info very helpful tips)
+
 Your homework is two parts:
 
 1.  Replace this link with the link to your DockerHub repo that is hosting your project:
